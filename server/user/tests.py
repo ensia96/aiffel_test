@@ -1,3 +1,25 @@
 from django.test import TestCase
+from django.urls import reverse
+from .models import User
 
-# Create your tests here.
+CONTENT_TYPE = "application/json"
+
+
+class SignUpTest(TestCase):
+    def tearDown(self):
+        User.objects.all().delete()
+
+    def test_signup_success(self):
+        url = reverse("sign-up")
+        data = {
+            "username": "test_id",
+            "password": "test_password",
+            "nickname": "test_user",
+            "email": "email@for.test",
+            "age": 20,
+            "phone": "010-0000-0000",
+        }
+
+        self.assertEqual(url, "/user/signup/")
+        res = self.client.post(url, data=data, content_type=CONTENT_TYPE)
+        self.assertEqual(res.status_code, 201)
