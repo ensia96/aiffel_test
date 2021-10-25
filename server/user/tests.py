@@ -36,6 +36,7 @@ class SignUpTest(TestCase):
 
         res = self.client.post(self.URL, **self.PAYLOAD)
         self.assertEqual(res.status_code, 201)
+        self.assertEqual(res.json().get("message"), "signup success")
 
     def test_signup_without_certain_key(self):
         keys = ["username", "password", "nickname", "email", "age", "phone"]
