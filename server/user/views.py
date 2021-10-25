@@ -29,4 +29,4 @@ def signup(req):
     except IntegrityError as E:
         return res({"message": str(E).split(".").pop() + " aleady exists."}, status=400)
 
-    return res({"message": "user data is "}, status=201)
+    return res({"message": "signup success"}, status=201)
