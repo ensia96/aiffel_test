@@ -14,9 +14,9 @@ def create_post(req):
     if req.method != "POST":
         return res({"message": "this method is not allowed."}, status=400)
 
-    data = json.loads(req.body)
-
     try:
+        data = json.loads(req.body)
+
         Post.objects.create(
             title=data['title'],
             content=data['content'],
@@ -75,9 +75,8 @@ def update_post(req):
     if req.method != "POST":
         return res({"message": "this method is not allowed."}, status=400)
 
-    data = json.loads(req.body)
-
     try:
+        data = json.loads(req.body)
         post = Post.objects.get(id=data['id'], user=req.user)
 
         post.title = data['title']

@@ -12,9 +12,9 @@ def signup(req):
     if req.method != "POST":
         return res({"message": "this method is not allowed."}, status=400)
 
-    data = json.loads(req.body)
-
     try:
+        data = json.loads(req.body)
+
         User.objects.create(
             username=data["username"],
             password=make_password(data["password"]),
@@ -37,9 +37,9 @@ def signin(req):
     if req.method != "POST":
         return res({"message": "this method is not allowed."}, status=400)
 
-    data = json.loads(req.body)
-
     try:
+        data = json.loads(req.body)
+
         user = User.objects.get(username=data["username"])
         valid = check_password(data["password"], user.password)
         if not valid:

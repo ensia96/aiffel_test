@@ -15,7 +15,7 @@ def create_token(user):
 
 
 def check_token(func):
-    def inner_func(req):
+    def inner_func(req, *args, **kwargs):
         try:
             token = req.headers.get("Authorization")
             key = os.environ.get("SECRET_KEY")
@@ -26,6 +26,6 @@ def check_token(func):
         except Exception:
             return res({'message': 'token is not valid'}, status=400)
 
-        return func(req)
+        return func(req, *args, **kwargs)
 
     return inner_func
