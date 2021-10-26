@@ -24,7 +24,7 @@ def create_post(req):
             user=req.user
         )
 
-    except Exception as E:
+    except KeyError as E:
         return res({"message": str(E) + " is not provided."}, status=400)
 
     return res({"message": "post creation success"}, status=201)
@@ -100,7 +100,7 @@ def get_post(req, post_id):
             likes=Count('likeforpost')
         ).get(id=post_id)
 
-    except Exception:
+    except Post.DoesNotExist:
         return res({'message': 'post does not exists.'}, status=404)
 
     return res({"post": post}, status=200)
