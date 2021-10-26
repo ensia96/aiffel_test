@@ -4,7 +4,7 @@ from django.db.models import Count, F, Q
 from django.http import JsonResponse as res
 from django.core.exceptions import FieldError
 
-from .models import Post
+from .models import Post, LikeForPost
 from user.models import User
 
 from user.auth import check_token
@@ -127,6 +127,30 @@ def update_post(req):
         return res({"message": "this user can not update this post."}, status=403)
 
     return res({"message": "post update success"}, status=201)
+
+
+@check_token
+def like_post(req, post_id):
+    if req.method != "PUT":
+        return res({"message": "this method is not allowed."}, status=400)
+
+    try:
+        post = Post.objects.get(id=post_id)
+        liked = LikeForPost.objects.filter(post=post, user=req.user)
+        already_liked = liked.exists()
+
+        if already_liked:
+            liked[0].delete()
+        else:
+            LikeForPost.objects.create(post=post, user=req.user)
+
+    except KeyError as E:
+        return res({"message": str(E) + " is not provided."}, status=400)
+
+    except Post.DoesNotExist:
+        return res({"message": "this post does not exist."}, status=403)
+
+    return res({"message": ['', 'un'][already_liked]+"liked the post"}, status=201)
 
 
 @check_token
