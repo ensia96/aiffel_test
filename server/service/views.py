@@ -34,12 +34,14 @@ def get_post_list(req):
         return res({"message": "this method is not allowed."}, status=400)
 
     posts = Post.objects.values(
+        'id',
         'title',
         'created_at'
     ).annotate(
         author_id=F('user__id'),
         author_nickname=F('user__nickname'),
-        likes=Count('likeforpost')
+        likes=Count('likeforpost', distinct=True),
+        comments=Count('comment', distinct=True)
     )
 
     return res({"posts": list(posts)}, status=200)

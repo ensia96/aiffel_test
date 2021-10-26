@@ -4,7 +4,7 @@ from .models import Post, Comment
 
 @admin.register(Post)
 class PostAdmin(admin.ModelAdmin):
-    list_display = ("title", "author", "like", "created_at")
+    list_display = ("title", "author", "like", "comment", "created_at")
     list_display_links = ("title",)
 
     def author(self, obj):
@@ -13,9 +13,13 @@ class PostAdmin(admin.ModelAdmin):
     def like(self, obj):
         return len(obj.likeforpost_set.all())
 
+    def comment(self, obj):
+        return len(obj.comment_set.all())
+
     author.admin_order_field = 'user'
     author.short_description = '작성자'
     like.short_description = '좋아요'
+    comment.short_description = '댓글'
 
 
 @admin.register(Comment)
