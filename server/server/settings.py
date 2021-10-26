@@ -42,7 +42,7 @@ DJANGO_APPS = [
 
 THIRD_PARTY_APPS = ["corsheaders"]
 
-LOCAL_APPS = ["user"]
+LOCAL_APPS = ["user", "service"]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
