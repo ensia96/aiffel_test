@@ -1,4 +1,10 @@
-import os, jwt
+import os
+import jwt
+
+from django.http import JsonResponse as res
+
+from .models import User
+
 
 def create_token(user):
     key = os.environ.get("SECRET_KEY")
@@ -6,3 +12,20 @@ def create_token(user):
     token = jwt.encode(payload, key, "HS256")
 
     return token
+
+
+def check_token(func):
+    def inner_func(req):
+        try:
+            token = req.headers.get("Authorization")
+            key = os.environ.get("SECRET_KEY")
+
+            data = jwt.decode(token, key, "HS256")
+            req.user = User.objects.get(id=data.get('user_id'))
+
+        except Exception:
+            return res({'message': 'token is not valid'}, status=400)
+
+        return func(req)
+
+    return inner_func
