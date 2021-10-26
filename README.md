@@ -57,7 +57,7 @@ make run
 - URL(endpoint)
 
 ```
-/post/create/
+/service/post/create/
 ```
 
 - Method
@@ -103,17 +103,87 @@ body = {"message": "post creation success"}
 > case 1
 
 code = 400
-body = {"message": "token is not valid"}
-
-> case 2
-
-code = 200
-body = {"message": "'title' is not provided."}
+body = {"message": "this method is not allowed."}
 
 > case 2
 
 code = 400
+body = {"message": "token is not valid"}
+
+> case 3
+
+code = 200
+body = {"message": "'title' is not provided."}
+
+> case 4
+
+code = 400
 body = {"message": "'content' is not provided."}
+```
+
+</details>
+
+<details><summary>get_post_list</summary>
+
+```
+질문(게시글) 목록 확인 요청을 받아, 처리하는 엔드포인트입니다.
+```
+
+- URL(endpoint)
+
+```
+/service/posts/
+```
+
+- Method
+
+```
+GET
+```
+
+- URL Params
+
+```
+None
+```
+
+- Request Header
+
+```
+None
+```
+
+- Sample Call
+
+```
+echo "$(curl -XGET "http://localhost:8000/service/posts/")"
+```
+
+- Success Response
+
+```
+code = 200
+body = {
+  "posts": [
+    {
+      "title": <게시글 제목>,
+      "created_at": <게시글 작성일>,
+      "author_id": <작성자 pk>,
+      "author_nickname": <작성자 닉네임>,
+      "likes": <좋아요 수>
+    },
+    ...
+  ]
+}
+```
+
+- Error Response
+
+```
+> case 1
+
+code = 400
+body = {"message": "this method is not allowed."}
 ```
 
 </details>
