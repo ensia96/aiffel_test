@@ -27,7 +27,7 @@ def create_post(req):
     except KeyError as E:
         return res({"message": str(E) + " is not provided."}, status=400)
 
-    return res({"message": "post creation success"}, status=201)
+    return res({"message": "successfully created post"}, status=201)
 
 
 def get_post_list(req):
@@ -101,7 +101,7 @@ def get_post(req, post_id):
         ).get(id=post_id)
 
     except Post.DoesNotExist:
-        return res({'message': 'post does not exists.'}, status=404)
+        return res({'message': 'post does not exist.'}, status=404)
 
     return res({"post": post}, status=200)
 
@@ -126,7 +126,7 @@ def update_post(req):
     except Post.DoesNotExist:
         return res({"message": "this user can not update this post."}, status=403)
 
-    return res({"message": "post update success"}, status=201)
+    return res({"message": "successfully updated post"}, status=200)
 
 
 @check_token
@@ -148,9 +148,9 @@ def like_post(req, post_id):
         return res({"message": str(E) + " is not provided."}, status=400)
 
     except Post.DoesNotExist:
-        return res({"message": "this post does not exist."}, status=403)
+        return res({"message": "this post does not exist."}, status=400)
 
-    return res({"message": ['', 'un'][already_liked]+"liked the post"}, status=201)
+    return res({"message": ['', 'un'][already_liked]+"liked the post"}, status=200)
 
 
 @check_token
@@ -165,4 +165,4 @@ def delete_post(req, post_id):
     except Post.DoesNotExist:
         return res({"message": "this user can not delete this post."}, status=403)
 
-    return res({'message': 'post delete success'}, status=200)
+    return res({'message': 'successfully deleted post'}, status=200)
