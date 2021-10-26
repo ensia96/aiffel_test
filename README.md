@@ -258,3 +258,89 @@ body = {'message': 'post does not exists.'}
 ```
 
 </details>
+
+<details><summary>update_post</summary>
+
+```
+질문(게시글) 수정 요청을 받아, 처리하는 엔드포인트입니다.
+```
+
+- URL(endpoint)
+
+```
+/service/post/update/
+```
+
+- Method
+
+```
+POST
+```
+
+- URL Params
+
+```
+None
+```
+
+- Request Header
+
+```
+Authorization: <token from signin response>
+```
+
+- Sample Call
+
+```
+curl  -XGET "http://localhost:8000/service/post/update/" \
+      -X "POST" \
+      -H "Authorization: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxfQ.7LCrddETrRL6H7JcXYigQORpm5559EJOmPknKwrILF4" \
+      -d "{ \
+          \"id\" : 7, \
+          \"title\" : \"curl 요청으로 수정된 게시글입니다.\", \
+          \"content\" : \"curl 요청으로 수정된 게시글의 본문 내용입니다.\" \
+      }"
+```
+
+- Success Response
+
+```
+code = 200
+body = {"message": "post update success"}
+```
+
+- Error Response
+
+```
+> case 1
+
+code = 400
+body = {"message": "this method is not allowed."}
+
+> case 2
+
+code = 400
+body = {"message": "token is not valid"}
+
+> case 3
+
+code = 400
+body = {"message": "'id' is not provided."}
+
+> case 4
+
+code = 400
+body = {"message": "'title' is not provided."}
+
+> case 5
+
+code = 400
+body = {"message": "'content' is not provided."}
+
+> case 6
+
+code = 403
+body = {"message": "this user can not update this post."}
+```
+
+</details>

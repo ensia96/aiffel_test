@@ -68,3 +68,27 @@ def get_post(req, post_id):
         return res({'message': 'post does not exists.'}, status=404)
 
     return res({"post": post}, status=200)
+
+
+@check_token
+def update_post(req):
+    if req.method != "POST":
+        return res({"message": "this method is not allowed."}, status=400)
+
+    data = json.loads(req.body)
+
+    try:
+        post = Post.objects.get(id=data['id'], user=req.user)
+
+        post.title = data['title']
+        post.content = data['content']
+
+        post.save()
+
+    except KeyError as E:
+        return res({"message": str(E) + " is not provided."}, status=400)
+
+    except Post.DoesNotExist:
+        return res({"message": "this user can not update this post."}, status=403)
+
+    return res({"message": "post update success"}, status=201)
