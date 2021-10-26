@@ -43,3 +43,26 @@ def get_post_list(req):
     )
 
     return res({"posts": list(posts)}, status=200)
+
+
+def get_post(req, post_id):
+    if req.method != "GET":
+        return res({"message": "this method is not allowed."}, status=400)
+
+    try:
+        post = Post.objects.values(
+            'id',
+            'title',
+            'content',
+            'created_at',
+            'updated_at'
+        ).annotate(
+            author_id=F('user__id'),
+            author_nickname=F('user__nickname'),
+            likes=Count('likeforpost')
+        ).get(id=post_id)
+
+    except Exception:
+        return res({'message': 'post does not exists.'}, status=404)
+
+    return res({"post": post}, status=200)
