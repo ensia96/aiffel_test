@@ -7,11 +7,8 @@ env:
 run:
 	python manage.py runserver
 
-migration:
-	python manage.py makemigrations
-
 migrate:
-	python manage.py migrate
+	python manage.py makemigrations && python manage.py migrate
 
 test:
 	python manage.py test
