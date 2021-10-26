@@ -91,3 +91,18 @@ def update_post(req):
         return res({"message": "this user can not update this post."}, status=403)
 
     return res({"message": "post update success"}, status=201)
+
+
+@check_token
+def delete_post(req, post_id):
+    if req.method != "DELETE":
+        return res({"message": "this method is not allowed."}, status=400)
+
+    try:
+        post = Post.objects.get(id=post_id, user=req.user)
+        post.delete()
+
+    except Post.DoesNotExist:
+        return res({"message": "this user can not delete this post."}, status=403)
+
+    return res({'message': 'post delete success'}, status=200)
