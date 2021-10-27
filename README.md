@@ -166,6 +166,7 @@ code = 200
 body = {
   "posts": [
     {
+      "id": <게시글 pk>,
       "title": <게시글 제목>,
       "created_at": <게시글 작성일>,
       "author_id": <작성자 pk>,
