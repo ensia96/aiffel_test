@@ -57,7 +57,7 @@ make run
 - URL(endpoint)
 
 ```
-/post/create/
+/service/post/create/
 ```
 
 - Method
