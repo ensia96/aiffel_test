@@ -186,4 +186,4 @@ def add_comment(req):
     except Post.DoesNotExist:
         return res({"message": "this post does not exist."}, status=403)
 
-    return res({"message": "successfully created post"}, status=201)
+    return res({"message": "successfully added comment"}, status=201)
