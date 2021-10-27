@@ -1,6 +1,9 @@
 import json
+from datetime import datetime
 
 from django.db.models import Count, F, Q
+from django.db.models.functions import ExtractMonth
+
 from django.http import JsonResponse as res
 from django.core.exceptions import FieldError
 
@@ -87,6 +90,27 @@ def search_post(req):
         return res({"message": "this search type is not supported."}, status=400)
 
     return res({"posts": list(posts)}, status=200)
+
+
+def get_top_post(req):
+    if req.method != "GET":
+        return res({"message": "this method is not allowed."}, status=400)
+
+    post = Post.objects.values(
+        "id",
+        "title",
+        "created_at"
+    ).annotate(
+        author_id=F("user__id"),
+        author_nickname=F("user__nickname"),
+        likes=Count("likeforpost", distinct=True),
+        comments=Count("comment", distinct=True),
+        month=ExtractMonth("created_at")
+    ).filter(
+        month=datetime.now().month
+    ).order_by("-likes")[:1][0]
+
+    return res({"post": post}, status=200)
 
 
 def get_post(req, post_id):
