@@ -187,3 +187,73 @@ body = {"message": "this method is not allowed."}
 ```
 
 </details>
+
+<details><summary>get_post</summary>
+
+```
+질문(게시글) 확인 요청을 받아, 처리하는 엔드포인트입니다.
+```
+
+- URL(endpoint)
+
+```
+/service/post/:id
+```
+
+- Method
+
+```
+GET
+```
+
+- URL Params
+
+```
+None
+```
+
+- Request Header
+
+```
+None
+```
+
+- Sample Call
+
+```
+echo "$(curl -XGET "http://localhost:8000/service/post/1/")"
+```
+
+- Success Response
+
+```
+code = 200
+body = {
+  "post": {
+    "id": <게시글 pk>,
+    "title": <게시글 제목>,
+    "content": <게시글 내용>,
+    "created_at": <게시글 작성일>,
+    "updated_at": <게시글 수정일>,
+    "author_id": <작성자 pk>,
+    "author_nickname": <작성자 닉네임>,
+    "likes": <좋아요 수>
+  }
+}
+```
+
+- Error Response
+
+```
+> case 1
+
+code = 400
+body = {"message": "this method is not allowed."}
+
+> case 2
+
+code = 404
+body = {'message': 'post does not exists.'}
+```
+
+</details>
