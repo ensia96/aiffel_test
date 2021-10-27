@@ -144,9 +144,6 @@ def like_post(req, post_id):
         else:
             LikeForPost.objects.create(post=post, user=req.user)
 
-    except KeyError as E:
-        return res({"message": str(E) + " is not provided."}, status=400)
-
     except Post.DoesNotExist:
         return res({"message": "this post does not exist."}, status=400)
 
