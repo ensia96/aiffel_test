@@ -344,3 +344,71 @@ body = {"message": "this user can not update this post."}
 ```
 
 </details>
+
+<details><summary>delete_post</summary>
+
+```
+질문(게시글) 삭제 요청을 받아, 처리하는 엔드포인트입니다.
+```
+
+- URL(endpoint)
+
+```
+/service/post/delete/:id
+```
+
+- Method
+
+```
+DELETE
+```
+
+- URL Params
+
+```
+> required
+
+id=[integer]
+```
+
+- Request Header
+
+```
+Authorization: <token from signin response>
+```
+
+- Sample Call
+
+```
+curl  -XGET "http://localhost:8000/service/post/delete/7/" \
+      -X "DELETE" \
+      -H "Authorization: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxfQ.7LCrddETrRL6H7JcXYigQORpm5559EJOmPknKwrILF4"
+```
+
+- Success Response
+
+```
+code = 200
+body = {"message": "post delete success"}
+```
+
+- Error Response
+
+```
+> case 1
+
+code = 400
+body = {"message": "this method is not allowed."}
+
+> case 2
+
+code = 400
+body = {"message": "token is not valid"}
+
+> case 3
+
+code = 400
+body = {"message": "this user can not delete this post."}
+```
+
+</details>
