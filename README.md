@@ -93,8 +93,8 @@ curl  -XGET "http://localhost:8000/service/post/create/" \
 - Success Response
 
 ```
-code = 200
-body = {"message": "post creation success"}
+code = 201
+body = {"message": "successfully created post."}
 ```
 
 - Error Response
@@ -108,14 +108,19 @@ body = {"message": "this method is not allowed."}
 > case 2
 
 code = 401
-body = {"message": "token is not valid"}
+body = {"message": "token is not valid."}
 
 > case 3
 
-code = 200
-body = {"message": "'title' is not provided."}
+code = 400
+body = {"message": "there is problem with the request body."}
 
 > case 4
+
+code = 400
+body = {"message": "'title' is not provided."}
+
+> case 5
 
 code = 400
 body = {"message": "'content' is not provided."}
@@ -171,7 +176,8 @@ body = {
       "created_at": <게시글 작성일>,
       "author_id": <작성자 pk>,
       "author_nickname": <작성자 닉네임>,
-      "likes": <좋아요 수>
+      "likes": <좋아요 수>,
+      "comments": <댓글 수>
     },
     ...
   ]
@@ -185,230 +191,6 @@ body = {
 
 code = 400
 body = {"message": "this method is not allowed."}
-```
-
-</details>
-
-<details><summary>get_post</summary>
-
-```
-질문(게시글) 확인 요청을 받아, 처리하는 엔드포인트입니다.
-```
-
-- URL(endpoint)
-
-```
-/service/post/:id
-```
-
-- Method
-
-```
-GET
-```
-
-- URL Params
-
-```
-None
-```
-
-- Request Header
-
-```
-None
-```
-
-- Sample Call
-
-```
-echo "$(curl -XGET "http://localhost:8000/service/post/1/")"
-```
-
-- Success Response
-
-```
-code = 200
-body = {
-  "post": {
-    "id": <게시글 pk>,
-    "title": <게시글 제목>,
-    "content": <게시글 내용>,
-    "created_at": <게시글 작성일>,
-    "updated_at": <게시글 수정일>,
-    "author_id": <작성자 pk>,
-    "author_nickname": <작성자 닉네임>,
-    "likes": <좋아요 수>
-  }
-}
-```
-
-- Error Response
-
-```
-> case 1
-
-code = 400
-body = {"message": "this method is not allowed."}
-
-> case 2
-
-code = 404
-body = {'message': 'post does not exists.'}
-```
-
-</details>
-
-<details><summary>update_post</summary>
-
-```
-질문(게시글) 수정 요청을 받아, 처리하는 엔드포인트입니다.
-```
-
-- URL(endpoint)
-
-```
-/service/post/update/
-```
-
-- Method
-
-```
-POST
-```
-
-- URL Params
-
-```
-None
-```
-
-- Request Header
-
-```
-Authorization: <token from signin response>
-```
-
-- Sample Call
-
-```
-curl  -XGET "http://localhost:8000/service/post/update/" \
-      -X "POST" \
-      -H "Authorization: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxfQ.7LCrddETrRL6H7JcXYigQORpm5559EJOmPknKwrILF4" \
-      -d "{ \
-          \"id\" : 7, \
-          \"title\" : \"curl 요청으로 수정된 게시글입니다.\", \
-          \"content\" : \"curl 요청으로 수정된 게시글의 본문 내용입니다.\" \
-      }"
-```
-
-- Success Response
-
-```
-code = 200
-body = {"message": "post update success"}
-```
-
-- Error Response
-
-```
-> case 1
-
-code = 400
-body = {"message": "this method is not allowed."}
-
-> case 2
-
-code = 401
-body = {"message": "token is not valid"}
-
-> case 3
-
-code = 400
-body = {"message": "'id' is not provided."}
-
-> case 4
-
-code = 400
-body = {"message": "'title' is not provided."}
-
-> case 5
-
-code = 400
-body = {"message": "'content' is not provided."}
-
-> case 6
-
-code = 403
-body = {"message": "this user can not update this post."}
-```
-
-</details>
-
-<details><summary>delete_post</summary>
-
-```
-질문(게시글) 삭제 요청을 받아, 처리하는 엔드포인트입니다.
-```
-
-- URL(endpoint)
-
-```
-/service/post/delete/:id
-```
-
-- Method
-
-```
-DELETE
-```
-
-- URL Params
-
-```
-> required
-
-id=[integer]
-```
-
-- Request Header
-
-```
-Authorization: <token from signin response>
-```
-
-- Sample Call
-
-```
-curl  -XGET "http://localhost:8000/service/post/delete/7/" \
-      -X "DELETE" \
-      -H "Authorization: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxfQ.7LCrddETrRL6H7JcXYigQORpm5559EJOmPknKwrILF4"
-```
-
-- Success Response
-
-```
-code = 200
-body = {"message": "post delete success"}
-```
-
-- Error Response
-
-```
-> case 1
-
-code = 400
-body = {"message": "this method is not allowed."}
-
-> case 2
-
-code = 401
-body = {"message": "token is not valid"}
-
-> case 3
-
-code = 400
-body = {"message": "this user can not delete this post."}
 ```
 
 </details>
@@ -467,7 +249,7 @@ body = {
       "created_at": <게시글 작성일>,
       "author_id": <작성자 pk>,
       "author_nickname": <작성자 닉네임>,
-      "likes": <좋아요 수>
+      "likes": <좋아요 수>,
       "comments": <댓글 수>
     },
     ...
@@ -486,17 +268,185 @@ body = {"message": "this method is not allowed."}
 > case 2
 
 code = 400
-body = {"message": "'type' is not provided."}
+body = {"message": "there is problem with the request body."}
 
 > case 3
 
 code = 400
-body = {"message": "'keyword' is not provided."}
+body = {"message": "'type' is not provided."}
 
 > case 4
 
 code = 400
+body = {"message": "'keyword' is not provided."}
+
+> case 5
+
+code = 400
 body = {"message": "this search type is not supported."}
+```
+
+</details>
+
+<details><summary>get_post</summary>
+
+```
+질문(게시글) 확인 요청을 받아, 처리하는 엔드포인트입니다.
+```
+
+- URL(endpoint)
+
+```
+/service/post/:post_id
+```
+
+- Method
+
+```
+GET
+```
+
+- URL Params
+
+```
+> required
+
+post_id=[integer]
+```
+
+- Request Header
+
+```
+None
+```
+
+- Sample Call
+
+```
+echo "$(curl -XGET "http://localhost:8000/service/post/1/")"
+```
+
+- Success Response
+
+```
+code = 200
+body = {
+  "post": {
+    "id": <게시글 pk>,
+    "title": <게시글 제목>,
+    "content": <게시글 내용>,
+    "created_at": <게시글 작성일>,
+    "updated_at": <게시글 수정일>,
+    "author_id": <작성자 pk>,
+    "author_nickname": <작성자 닉네임>,
+    "likes": <좋아요 수>
+  }
+}
+```
+
+- Error Response
+
+```
+> case 1
+
+code = 400
+body = {"message": "this method is not allowed."}
+
+> case 2
+
+code = 404
+body = {"message": "post does not exist."}
+```
+
+</details>
+
+<details><summary>update_post</summary>
+
+```
+질문(게시글) 수정 요청을 받아, 처리하는 엔드포인트입니다.
+```
+
+- URL(endpoint)
+
+```
+/service/post/update/
+```
+
+- Method
+
+```
+POST
+```
+
+- URL Params
+
+```
+None
+```
+
+- Request Header
+
+```
+Authorization: <token from signin response>
+```
+
+- Sample Call
+
+```
+curl  -XGET "http://localhost:8000/service/post/update/" \
+      -X "POST" \
+      -H "Authorization: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxfQ.7LCrddETrRL6H7JcXYigQORpm5559EJOmPknKwrILF4" \
+      -d "{ \
+          \"id\" : 7, \
+          \"title\" : \"curl 요청으로 수정된 게시글입니다.\", \
+          \"content\" : \"curl 요청으로 수정된 게시글의 본문 내용입니다.\" \
+      }"
+```
+
+- Success Response
+
+```
+code = 200
+body = {"message": "successfully updated post."}
+```
+
+- Error Response
+
+```
+> case 1
+
+code = 400
+body = {"message": "this method is not allowed."}
+
+> case 2
+
+code = 401
+body = {"message": "token is not valid."}
+
+> case 3
+
+code = 400
+body = {"message": "there is problem with the request body."}
+
+> case 4
+
+code = 400
+body = {"message": "'id' is not provided."}
+
+> case 5
+
+code = 400
+body = {"message": "'title' is not provided."}
+
+> case 6
+
+code = 400
+body = {"message": "'content' is not provided."}
+
+> case 7
+
+code = 403
+body = {"message": "this user can not update this post."}
 ```
 
 </details>
@@ -510,7 +460,7 @@ body = {"message": "this search type is not supported."}
 - URL(endpoint)
 
 ```
-/service/post/like/:id
+/service/post/like/:post_id
 ```
 
 - Method
@@ -524,7 +474,7 @@ PUT
 ```
 > required
 
-id=[integer]
+post_id=[integer]
 ```
 
 - Request Header
@@ -545,7 +495,7 @@ curl  -XGET "http://localhost:8000/service/post/like/1/" \
 
 ```
 code = 200
-body = {"message": "liked the post"} or {"message": "unliked the post"}
+body = {"message": "liked the post."} or {"message": "unliked the post."}
 ```
 
 - Error Response
@@ -559,12 +509,80 @@ body = {"message": "this method is not allowed."}
 > case 2
 
 code = 401
-body = {"message": "token is not valid"}
+body = {"message": "token is not valid."}
+
+> case 3
+
+code = 404
+body = {"message": "post does not exist."}
+```
+
+</details>
+
+<details><summary>delete_post</summary>
+
+```
+질문(게시글) 삭제 요청을 받아, 처리하는 엔드포인트입니다.
+```
+
+- URL(endpoint)
+
+```
+/service/post/delete/:post_id
+```
+
+- Method
+
+```
+DELETE
+```
+
+- URL Params
+
+```
+> required
+
+post_id=[integer]
+```
+
+- Request Header
+
+```
+Authorization: <token from signin response>
+```
+
+- Sample Call
+
+```
+curl  -XGET "http://localhost:8000/service/post/delete/7/" \
+      -X "DELETE" \
+      -H "Authorization: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxfQ.7LCrddETrRL6H7JcXYigQORpm5559EJOmPknKwrILF4"
+```
+
+- Success Response
+
+```
+code = 200
+body = {"message": "successfully deleted post."}
+```
+
+- Error Response
+
+```
+> case 1
+
+code = 400
+body = {"message": "this method is not allowed."}
+
+> case 2
+
+code = 401
+body = {"message": "token is not valid."}
 
 > case 3
 
 code = 400
-body = {"message": "this post does not exist."}
+body = {"message": "this user can not delete this post."}
 ```
 
 </details>
@@ -615,7 +633,7 @@ curl  -XGET "http://localhost:8000/service/comment/add/" \
 
 ```
 code = 200
-body = {"message": "successfully added comment"}
+body = {"message": "successfully added comment."}
 ```
 
 - Error Response
@@ -629,22 +647,27 @@ body = {"message": "this method is not allowed."}
 > case 2
 
 code = 401
-body = {"message": "token is not valid"}
+body = {"message": "token is not valid."}
 
 > case 3
 
 code = 400
-body = {"message": "'post_id' is not provided."}
+body = {"message": "there is problem with the request body."}
 
 > case 4
 
 code = 400
-body = {"message": "'content' is not provided."}
+body = {"message": "'post_id' is not provided."}
 
 > case 5
 
-code = 403
-body = {"message": "this post does not exist."}
+code = 400
+body = {"message": "'content' is not provided."}
+
+> case 6
+
+code = 404
+body = {"message": "post does not exist."}
 ```
 
 </details>
