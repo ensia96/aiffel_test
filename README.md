@@ -107,7 +107,7 @@ body = {"message": "this method is not allowed."}
 
 > case 2
 
-code = 400
+code = 401
 body = {"message": "token is not valid"}
 
 > case 3
@@ -319,7 +319,7 @@ body = {"message": "this method is not allowed."}
 
 > case 2
 
-code = 400
+code = 401
 body = {"message": "token is not valid"}
 
 > case 3
@@ -402,7 +402,7 @@ body = {"message": "this method is not allowed."}
 
 > case 2
 
-code = 400
+code = 401
 body = {"message": "token is not valid"}
 
 > case 3
