@@ -21,10 +21,10 @@ def check_token(func):
             key = os.environ.get("SECRET_KEY")
 
             data = jwt.decode(token, key, "HS256")
-            req.user = User.objects.get(id=data.get('user_id'))
+            req.user = User.objects.get(id=data.get("user_id"))
 
         except Exception:
-            return res({'message': 'token is not valid'}, status=401)
+            return res({"message": "token is not valid."}, status=401)
 
         return func(req, *args, **kwargs)
 

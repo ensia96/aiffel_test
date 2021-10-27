@@ -24,13 +24,16 @@ def signup(req):
             phone=data["phone"],
         )
 
+    except json.decoder.JSONDecodeError:
+        return res({"message": "there is problem with the request body."}, status=400)
+
     except KeyError as E:
         return res({"message": str(E) + " is not provided."}, status=400)
 
     except IntegrityError as E:
         return res({"message": str(E).split(".").pop() + " aleady exists."}, status=400)
 
-    return res({"message": "signup success"}, status=201)
+    return res({"message": "signup success."}, status=201)
 
 
 def signin(req):
@@ -46,10 +49,13 @@ def signin(req):
             raise Exception
         token = create_token(user)
 
+    except json.decoder.JSONDecodeError:
+        return res({"message": "there is problem with the request body."}, status=400)
+
     except KeyError as E:
         return res({"message": str(E) + " is not provided."}, status=400)
 
     except Exception as E:
         return res({"message": "user data is not valid."}, status=400)
 
-    return res({"message": "singin success", "token": token}, status=200)
+    return res({"message": "singin success.", "token": token}, status=200)
