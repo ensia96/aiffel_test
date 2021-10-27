@@ -103,14 +103,19 @@ body = {"message": "post creation success"}
 > case 1
 
 code = 400
-body = {"message": "token is not valid"}
+body = {"message": "this method is not allowed."}
 
 > case 2
+
+code = 400
+body = {"message": "token is not valid"}
+
+> case 3
 
 code = 200
 body = {"message": "'title' is not provided."}
 
-> case 2
+> case 4
 
 code = 400
 body = {"message": "'content' is not provided."}
