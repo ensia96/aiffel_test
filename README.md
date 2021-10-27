@@ -568,3 +568,83 @@ body = {"message": "this post does not exist."}
 ```
 
 </details>
+
+<details><summary>add_comment</summary>
+
+```
+질문(게시글) 에 대한 댓글 생성 요청을 받아, 처리하는 엔드포인트입니다.
+```
+
+- URL(endpoint)
+
+```
+/service/comment/add/
+```
+
+- Method
+
+```
+POST
+```
+
+- URL Params
+
+```
+None
+```
+
+- Request Header
+
+```
+Authorization: <token from signin response>
+```
+
+- Sample Call
+
+```
+curl  -XGET "http://localhost:8000/service/comment/add/" \
+      -X "POST" \
+      -H "Authorization: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxfQ.7LCrddETrRL6H7JcXYigQORpm5559EJOmPknKwrILF4" \
+      -d "{ \
+          \"post_id\" : 2, \
+          \"content\" : \"curl 요청으로 생성된 댓글 내용입니다.\" \
+      }"
+```
+
+- Success Response
+
+```
+code = 200
+body = {"message": "successfully added comment"}
+```
+
+- Error Response
+
+```
+> case 1
+
+code = 400
+body = {"message": "this method is not allowed."}
+
+> case 2
+
+code = 401
+body = {"message": "token is not valid"}
+
+> case 3
+
+code = 400
+body = {"message": "'post_id' is not provided."}
+
+> case 4
+
+code = 400
+body = {"message": "'content' is not provided."}
+
+> case 5
+
+code = 403
+body = {"message": "this post does not exist."}
+```
+
+</details>
