@@ -154,7 +154,7 @@ def like_post(req, post_id):
             LikeForPost.objects.create(post=post, user=req.user)
 
     except Post.DoesNotExist:
-        return res({"message": "this post does not exist."}, status=400)
+        return res({"message": "post does not exist."}, status=404)
 
     return res({"message": ["", "un"][already_liked]+"liked the post."}, status=200)
 
@@ -196,6 +196,6 @@ def add_comment(req):
         return res({"message": str(E) + " is not provided."}, status=400)
 
     except Post.DoesNotExist:
-        return res({"message": "this post does not exist."}, status=403)
+        return res({"message": "post does not exist."}, status=404)
 
     return res({"message": "successfully added comment."}, status=201)
