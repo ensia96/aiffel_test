@@ -40,6 +40,13 @@ curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py && python3 get-pip.py
 make install && make env
 ```
 
+- SQLite 동기화  
+  `(아래의 '로컬 데이터베이스 진입' 명령어로 SQLite 에 접속한 후 아래 명령어 실행)`
+
+```
+.read dump.txt
+```
+
 - 앱 실행
 
 ```
