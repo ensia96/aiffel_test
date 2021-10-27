@@ -4,7 +4,7 @@ from django.db.models import Count, F, Q
 from django.http import JsonResponse as res
 from django.core.exceptions import FieldError
 
-from .models import Post, LikeForPost
+from .models import Post, LikeForPost, Comment
 from user.models import User
 
 from user.auth import check_token
@@ -163,3 +163,27 @@ def delete_post(req, post_id):
         return res({"message": "this user can not delete this post."}, status=403)
 
     return res({'message': 'successfully deleted post'}, status=200)
+
+
+@check_token
+def add_comment(req):
+    if req.method != "POST":
+        return res({"message": "this method is not allowed."}, status=400)
+
+    try:
+        data = json.loads(req.body)
+        post = Post.objects.get(id=data['post_id'])
+
+        Comment.objects.create(
+            content=data['content'],
+            post=post,
+            user=req.user
+        )
+
+    except KeyError as E:
+        return res({"message": str(E) + " is not provided."}, status=400)
+
+    except Post.DoesNotExist:
+        return res({"message": "this post does not exist."}, status=403)
+
+    return res({"message": "successfully created post"}, status=201)
