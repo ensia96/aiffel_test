@@ -412,3 +412,91 @@ body = {"message": "this user can not delete this post."}
 ```
 
 </details>
+
+<details><summary>search_post</summary>
+
+```
+질문(게시글) 검색 요청을 받아, 처리하는 엔드포인트입니다.
+```
+
+- URL(endpoint)
+
+```
+/service/post/search/
+```
+
+- Method
+
+```
+POST
+```
+
+- URL Params
+
+```
+None
+```
+
+- Request Header
+
+```
+None
+```
+
+- Sample Call
+
+```
+echo "$(curl  -XGET "http://localhost:8000/service/post/search/" \
+      -X "POST" \
+      -d "{ \
+          \"type\" : \"title\", \
+          \"keyword\" : \"curl 요청\" \
+      }"
+)"
+```
+
+- Success Response
+
+```
+code = 200
+body = {
+  "posts": [
+    {
+      "id": <게시글 pk>,
+      "title": <게시글 제목>,
+      "created_at": <게시글 작성일>,
+      "author_id": <작성자 pk>,
+      "author_nickname": <작성자 닉네임>,
+      "likes": <좋아요 수>
+      "comments": <댓글 수>
+    },
+    ...
+  ]
+}
+```
+
+- Error Response
+
+```
+> case 1
+
+code = 400
+body = {"message": "this method is not allowed."}
+
+> case 2
+
+code = 400
+body = {"message": "'type' is not provided."}
+
+> case 3
+
+code = 400
+body = {"message": "'keyword' is not provided."}
+
+> case 4
+
+code = 400
+body = {"message": "this search type is not supported."}
+```
+
+</details>
