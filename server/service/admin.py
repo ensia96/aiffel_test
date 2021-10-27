@@ -16,10 +16,10 @@ class PostAdmin(admin.ModelAdmin):
     def comment(self, obj):
         return len(obj.comment_set.all())
 
-    author.admin_order_field = 'user'
-    author.short_description = '작성자'
-    like.short_description = '좋아요'
-    comment.short_description = '댓글'
+    author.admin_order_field = "user"
+    author.short_description = "작성자"
+    like.short_description = "좋아요"
+    comment.short_description = "댓글"
 
 
 @admin.register(Comment)
@@ -33,6 +33,6 @@ class CommentAdmin(admin.ModelAdmin):
     def like(self, obj):
         return len(obj.likeforcomment_set.all())
 
-    author.admin_order_field = 'user'
-    author.short_description = '작성자'
-    like.short_description = '좋아요'
+    author.admin_order_field = "user"
+    author.short_description = "작성자"
+    like.short_description = "좋아요"
