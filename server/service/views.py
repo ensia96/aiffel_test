@@ -199,3 +199,21 @@ def add_comment(req):
         return res({"message": "post does not exist."}, status=404)
 
     return res({"message": "successfully added comment."}, status=201)
+
+
+def get_comment_list(req, post_id):
+    if req.method != "GET":
+        return res({"message": "this method is not allowed."}, status=400)
+
+    comments = Comment.objects.values(
+        "id",
+        "content",
+        "created_at",
+        "updated_at"
+    ).annotate(
+        author_id=F("user__id"),
+        author_nickname=F("user__nickname"),
+        likes=Count("likeforcomment", distinct=True),
+    ).filter(post__id=post_id)
+
+    return res({"comments": list(comments)}, status=200)
