@@ -45,3 +45,75 @@ make install && make env
 ```
 make run
 ```
+
+# 3. API 안내
+
+<details><summary>create_post</summary>
+
+```
+질문(게시글) 생성 요청을 받아, 처리하는 엔드포인트입니다.
+```
+
+- URL(endpoint)
+
+```
+/post/create/
+```
+
+- Method
+
+```
+POST
+```
+
+- URL Params
+
+```
+None
+```
+
+- Request Header
+
+```
+Authorization: <token from signin response>
+```
+
+- Sample Call
+
+```
+curl  -XGET "http://localhost:8000/service/post/create/" \
+      -X "POST" \
+      -H "Authorization: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxfQ.7LCrddETrRL6H7JcXYigQORpm5559EJOmPknKwrILF4" \
+      -d "{ \
+          \"title\" : \"curl 요청으로 생성된 게시글입니다.\", \
+          \"content\" : \"curl 요청으로 생성된 게시글의 본문 내용입니다.\" \
+      }"
+```
+
+- Success Response
+
+```
+code = 200
+body = {"message": "post creation success"}
+```
+
+- Error Response
+
+```
+> case 1
+
+code = 400
+body = {"message": "token is not valid"}
+
+> case 2
+
+code = 200
+body = {"message": "'title' is not provided."}
+
+> case 2
+
+code = 400
+body = {"message": "'content' is not provided."}
+```
+
+</details>
