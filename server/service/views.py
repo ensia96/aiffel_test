@@ -24,6 +24,9 @@ def create_post(req):
             user=req.user
         )
 
+    except json.decoder.JSONDecodeError:
+        return res({"message": "there is problem with the request body."}, status=400)
+
     except KeyError as E:
         return res({"message": str(E) + " is not provided."}, status=400)
 
@@ -74,6 +77,9 @@ def search_post(req):
             comments=Count('comment', distinct=True)
         ).filter(query)
 
+    except json.decoder.JSONDecodeError:
+        return res({"message": "there is problem with the request body."}, status=400)
+
     except KeyError as E:
         return res({"message": str(E) + " is not provided."}, status=400)
 
@@ -119,6 +125,9 @@ def update_post(req):
         post.content = data['content']
 
         post.save()
+
+    except json.decoder.JSONDecodeError:
+        return res({"message": "there is problem with the request body."}, status=400)
 
     except KeyError as E:
         return res({"message": str(E) + " is not provided."}, status=400)
@@ -179,6 +188,9 @@ def add_comment(req):
             post=post,
             user=req.user
         )
+
+    except json.decoder.JSONDecodeError:
+        return res({"message": "there is problem with the request body."}, status=400)
 
     except KeyError as E:
         return res({"message": str(E) + " is not provided."}, status=400)
