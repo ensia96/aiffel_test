@@ -683,3 +683,72 @@ body = {"message": "post does not exist."}
 ```
 
 </details>
+
+<details><summary>get_comment_list</summary>
+
+```
+질문(게시글) 에 대한 댓글 목록 확인 요청을 받아, 처리하는 엔드포인트입니다.
+```
+
+- URL(endpoint)
+
+```
+/service/comments/:post_id
+```
+
+- Method
+
+```
+GET
+```
+
+- URL Params
+
+```
+> required
+
+post_id=[integer]
+```
+
+- Request Header
+
+```
+None
+```
+
+- Sample Call
+
+```
+echo "$(curl  -XGET "http://localhost:8000/service/comments/1")"
+```
+
+- Success Response
+
+```
+code = 200
+body = {
+  "comments": [
+    {
+      "id": <댓글 pk>,
+      "content": <댓글 내용>,
+      "created_at": <댓글 작성일>,
+      "updated_at": <댓글 수정일>,
+      "author_id": <작성자 pk>,
+      "author_nickname": <작성자 닉네임>,
+      "likes": <좋아요 수>,
+    },
+    ...
+  ]
+}
+```
+
+- Error Response
+
+```
+> case 1
+
+code = 400
+body = {"message": "this method is not allowed."}
+```
+
+</details>
