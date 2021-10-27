@@ -30,7 +30,7 @@ def create_post(req):
     except KeyError as E:
         return res({"message": str(E) + " is not provided."}, status=400)
 
-    return res({"message": "successfully created post"}, status=201)
+    return res({"message": "successfully created post."}, status=201)
 
 
 def get_post_list(req):
@@ -135,7 +135,7 @@ def update_post(req):
     except Post.DoesNotExist:
         return res({"message": "this user can not update this post."}, status=403)
 
-    return res({"message": "successfully updated post"}, status=200)
+    return res({"message": "successfully updated post."}, status=200)
 
 
 @check_token
@@ -198,4 +198,4 @@ def add_comment(req):
     except Post.DoesNotExist:
         return res({"message": "this post does not exist."}, status=403)
 
-    return res({"message": "successfully added comment"}, status=201)
+    return res({"message": "successfully added comment."}, status=201)

@@ -24,7 +24,7 @@ def check_token(func):
             req.user = User.objects.get(id=data.get('user_id'))
 
         except Exception:
-            return res({'message': 'token is not valid'}, status=401)
+            return res({'message': 'token is not valid.'}, status=401)
 
         return func(req, *args, **kwargs)
 
