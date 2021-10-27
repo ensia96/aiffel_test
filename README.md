@@ -156,7 +156,7 @@ None
 - Sample Call
 
 ```
-echo -en "$(curl -XGET "http://localhost:8000/service/posts/")"
+echo "$(curl -XGET "http://localhost:8000/service/posts/")"
 ```
 
 - Success Response
