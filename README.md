@@ -500,3 +500,71 @@ body = {"message": "this search type is not supported."}
 ```
 
 </details>
+
+<details><summary>like_post</summary>
+
+```
+질문(게시글) 에 대한 좋아요 표시 요청을 받아, 처리하는 엔드포인트입니다.
+```
+
+- URL(endpoint)
+
+```
+/service/post/like/:id
+```
+
+- Method
+
+```
+PUT
+```
+
+- URL Params
+
+```
+> required
+
+id=[integer]
+```
+
+- Request Header
+
+```
+Authorization: <token from signin response>
+```
+
+- Sample Call
+
+```
+curl  -XGET "http://localhost:8000/service/post/like/1/" \
+      -X "PUT" \
+      -H "Authorization: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxfQ.7LCrddETrRL6H7JcXYigQORpm5559EJOmPknKwrILF4"
+```
+
+- Success Response
+
+```
+code = 200
+body = {"message": "liked the post"} or {"message": "unliked the post"}
+```
+
+- Error Response
+
+```
+> case 1
+
+code = 400
+body = {"message": "this method is not allowed."}
+
+> case 2
+
+code = 401
+body = {"message": "token is not valid"}
+
+> case 3
+
+code = 400
+body = {"message": "this post does not exist."}
+```
+
+</details>
