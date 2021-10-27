@@ -46,6 +46,18 @@ make install && make env
 make run
 ```
 
+- Django Shell 진입
+
+```
+make shell
+```
+
+- 로컬 데이터베이스 진입
+
+```
+make db
+```
+
 # 3. API 안내
 
 <details><summary>create_post</summary>
