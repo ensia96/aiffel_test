@@ -335,7 +335,7 @@ None
 - Sample Call
 
 ```
-echo "$(curl -XGET "http://localhost:8000/service/post/1/")"
+echo "$(curl -XGET "http://localhost:8000/service/post/1")"
 ```
 
 - Success Response
@@ -498,7 +498,7 @@ Authorization: <token from signin response>
 - Sample Call
 
 ```
-curl  -XGET "http://localhost:8000/service/post/like/1/" \
+curl  -XGET "http://localhost:8000/service/post/like/1" \
       -X "PUT" \
       -H "Authorization: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxfQ.7LCrddETrRL6H7JcXYigQORpm5559EJOmPknKwrILF4"
 ```
@@ -566,7 +566,7 @@ Authorization: <token from signin response>
 - Sample Call
 
 ```
-curl  -XGET "http://localhost:8000/service/post/delete/7/" \
+curl  -XGET "http://localhost:8000/service/post/delete/7" \
       -X "DELETE" \
       -H "Authorization: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxfQ.7LCrddETrRL6H7JcXYigQORpm5559EJOmPknKwrILF4"
 ```
