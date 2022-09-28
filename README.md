@@ -13,7 +13,7 @@
 
 - Ubuntu
     ```
-    apt-get install direnv && apt-get install direnv && apt-get install python3
+    apt-get install direnv && apt-get install make && apt-get install python3
     ```
 
 - Windows
